@@ -1,10 +1,14 @@
 package com.biblioteca.demo.services;
 
+import com.biblioteca.demo.dto.livros.LivroRecomendationDTO;
 import com.biblioteca.demo.dto.usuarios.UsuarioByIdDTO;
 import com.biblioteca.demo.dto.usuarios.UsuarioDTO;
 import com.biblioteca.demo.dto.usuarios.UsuarioRequestDTO;
 import com.biblioteca.demo.dto.usuarios.UsuarioResponseDTO;
+import com.biblioteca.demo.entities.Livro;
 import com.biblioteca.demo.entities.Usuario;
+import com.biblioteca.demo.repositories.EmprestimoRepository;
+import com.biblioteca.demo.repositories.LivroRepository;
 import com.biblioteca.demo.repositories.UsuarioRepository;
 import com.biblioteca.demo.services.exceptions.DatabaseException;
 import com.biblioteca.demo.services.exceptions.ResourceNotFoundException;
@@ -19,12 +23,25 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private LivroService livroService;
+
+    @Autowired
+    private EmprestimoService emprestimoService;
+
+    @Autowired
+    private EmprestimoRepository emprestimoRepository;
+
+    @Autowired
+    private LivroRepository livroRepository;
 
     @Transactional(readOnly = true)
     public Page<UsuarioDTO> findAll(Pageable pageable) {
@@ -80,6 +97,27 @@ public class UsuarioService {
         catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Falha de integridade referencial");
         }
+    }
+
+    public Page<LivroRecomendationDTO> recomendarLivros(
+            Long usuario_id,
+            Pageable pageable) {
+
+        List<String> categorias =
+                emprestimoRepository.findCategoriasEmprestadas(usuario_id);
+
+        if (categorias.isEmpty()) {
+            return Page.empty(pageable);
+        }
+
+        Page<Livro> livros =
+                livroRepository.findLivrosRecomendados(
+                        usuario_id,
+                        categorias,
+                        pageable);
+
+
+        return livros.map(LivroRecomendationDTO::new);
     }
 
     public void copyDtoToEntity(UsuarioRequestDTO dto, Usuario entity) {

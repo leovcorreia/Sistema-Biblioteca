@@ -1,13 +1,12 @@
 package com.biblioteca.demo.controllers;
 
-import com.biblioteca.demo.dto.livros.LivroByIdDTO;
-import com.biblioteca.demo.dto.livros.LivroDTO;
-import com.biblioteca.demo.dto.livros.LivroRequestDTO;
-import com.biblioteca.demo.dto.livros.LivroResponseDTO;
+import com.biblioteca.demo.dto.livros.*;
 import com.biblioteca.demo.services.LivroService;
+import com.biblioteca.demo.services.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +20,9 @@ public class LivroController {
 
     @Autowired
     private LivroService livroService;
+
+    @Autowired
+    private UsuarioService usuarioService;
 
     @GetMapping
     public ResponseEntity<Page<LivroDTO>> findAll(Pageable pageable) {
@@ -63,4 +65,5 @@ public class LivroController {
         livroService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
 }

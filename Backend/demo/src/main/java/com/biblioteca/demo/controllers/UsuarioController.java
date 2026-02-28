@@ -1,5 +1,6 @@
 package com.biblioteca.demo.controllers;
 
+import com.biblioteca.demo.dto.livros.LivroRecomendationDTO;
 import com.biblioteca.demo.dto.usuarios.UsuarioByIdDTO;
 import com.biblioteca.demo.dto.usuarios.UsuarioDTO;
 import com.biblioteca.demo.dto.usuarios.UsuarioRequestDTO;
@@ -8,6 +9,7 @@ import com.biblioteca.demo.services.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -57,6 +59,20 @@ public class UsuarioController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         usuarioService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/recomendacoes")
+    public ResponseEntity<Page<LivroRecomendationDTO>> recomendarLivros(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<LivroRecomendationDTO> recomendacoes =
+                usuarioService.recomendarLivros(id, pageable);
+
+        return ResponseEntity.ok(recomendacoes);
     }
 
 }

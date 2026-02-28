@@ -1,10 +1,8 @@
 package com.biblioteca.demo.services;
 
-import com.biblioteca.demo.dto.livros.LivroByIdDTO;
-import com.biblioteca.demo.dto.livros.LivroDTO;
-import com.biblioteca.demo.dto.livros.LivroRequestDTO;
-import com.biblioteca.demo.dto.livros.LivroResponseDTO;
+import com.biblioteca.demo.dto.livros.*;
 import com.biblioteca.demo.entities.Livro;
+import com.biblioteca.demo.repositories.EmprestimoRepository;
 import com.biblioteca.demo.repositories.LivroRepository;
 import com.biblioteca.demo.services.exceptions.DatabaseException;
 import com.biblioteca.demo.services.exceptions.ResourceNotFoundException;
@@ -17,11 +15,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class LivroService {
 
     @Autowired
     private LivroRepository livroRepository;
+
+    @Autowired
+    private EmprestimoRepository emprestimoRepository;
 
     @Transactional(readOnly = true)
     public Page<LivroDTO> findAll(Pageable pageable) {
