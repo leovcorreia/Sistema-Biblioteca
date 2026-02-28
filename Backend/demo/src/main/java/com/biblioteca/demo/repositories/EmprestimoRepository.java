@@ -10,11 +10,11 @@ import java.util.List;
 @Repository
 public interface EmprestimoRepository extends JpaRepository<Emprestimo, Long> {
 
-    @Query("""
-       SELECT DISTINCT e.livro.categoria
-       FROM Emprestimo e
-       WHERE e.usuario.id = :usuario_id
-       """)
+    @Query(nativeQuery = true, value = "SELECT categoria " +
+            "FROM emprestimo " +
+            "INNER JOIN livro on livro.id = emprestimo.livro_id " +
+            "WHERE emprestimo.usuario_id = :usuario_id"
+            )
     List<String> findCategoriasEmprestadas(Long usuario_id);
 
 }
