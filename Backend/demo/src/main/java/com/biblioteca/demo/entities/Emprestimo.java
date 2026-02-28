@@ -1,16 +1,21 @@
 package com.biblioteca.demo.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Emprestimo {
 
     @Id
@@ -18,10 +23,14 @@ public class Emprestimo {
     private Long id;
 
     @NotNull
-    private Long usuario_id;
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
     @NotNull
-    private Long livro_id;
+    @ManyToOne
+    @JoinColumn(name = "livro_id")
+    private Livro livro;
 
     @NotNull
     @PastOrPresent
@@ -30,7 +39,9 @@ public class Emprestimo {
     @NotNull
     private LocalDate data_devolucao;
 
-    @NotBlank
-    private String status;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "varchar(30)")
+    private StatusEmprestimo status;
 
 }
