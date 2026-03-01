@@ -1,0 +1,23 @@
+.smv-btn-new {
+    background-color: var(--smv-color-btn-green);
+    width: 170px;
+    height: 46px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: flex-start;
+    border-radius: 4px;
+    padding: 0 2px;
+}
+
+.smv-btn-new-left img {
+    width: 44px;
+    height: 44px;
+}
+
+.smv-btn-new-right {
+    margin: 0 auto;
+    font-weight: 700;
+    font-size: 18px;
+    
+}
