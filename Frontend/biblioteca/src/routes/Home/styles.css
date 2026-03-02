@@ -1,31 +1,27 @@
 .smv-home-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
-
-.smv-home-content {
-    display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 40px;
-    width: 100%;
-    max-width: 900px;
-    gap: 40px;
+    justify-content: center; 
+    align-items: center;               
+}
+
+.smv-home-container h2 {
+    margin-bottom: 16px;
+}
+
+.smv-home-row {
+    display: flex;
+    gap: 60px;
+}
+
+.smv-home-row h2 {
+    margin-bottom: 4px;
 }
 
 
-.smv-home-row-top {
-  display: flex;
-  gap: 80px; /* substitui o grid-gap, que não funciona em flex */
-  margin-bottom: 20px;
-}
-
-@media (max-width: 840px) {
-  .smv-home-row-top {
-    display: grid;
-    gap: 35px;
-    grid-template-columns: 1fr;
-  }
+@media (max-width: 768px) {
+    .smv-home-row {
+        flex-direction: column;
+        align-items: center;
+    }
 }

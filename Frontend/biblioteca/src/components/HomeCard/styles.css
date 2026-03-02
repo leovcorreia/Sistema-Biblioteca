@@ -2,36 +2,22 @@
     width: 260px;
     height: 140px;
     border: 1px solid var(--smv-color-black);
-    background-color: var(--smv-color-white);
-    border-radius: 32px;
+    background-color: var(--smv-color-gray);
+    border-radius: 26px;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 10px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+.home-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
 .home-card h2 {
     font-size: 24px;
-    margin-bottom: 6px;
-}
-
-.home-card img {
-    width: 74px;
-    height: 74px;
-}
-
-@media (min-width: 576px) {
-    .home-card {
-        width: 270px;
-        height: 150px;
-    }
-
-    .home-card h2 {
-        font-size: 26px;
-    }
-
-    .home-card img {
-        width: 76px;
-        height: 76px;
-    }
+    text-align: center;
 }
