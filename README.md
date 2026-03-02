@@ -6,6 +6,11 @@ Desenvolvimento de uma **aplicação web full-stack** de gestão de biblioteca q
 
 <!-- ## Layout web -->
 
+# Modelagem do banco de dados 
+![Modelo Conceitual](https://github.com/leovcorreia/assets/blob/main/modelagem-biblioteca.jpeg)
+
+A modelagem do campo "categoria" foi implementada como atributo simples na entidade Livro para manter o escopo do projeto focado nas regras principais de empréstimo e relacionamento entre as entidades. Seria recomendável modelar Categoria como entidade própria, permitindo maior flexibilidade.
+
 # Tecnologias utilizadas
 ## Back end
 - Java
@@ -20,37 +25,50 @@ Desenvolvimento de uma **aplicação web full-stack** de gestão de biblioteca q
 ## Tools
 - Docker
 - Testes Unitários (JUnit, Mockito)
+- Lombok
 
 # Como executar o projeto
 
-## Back end
+## 1) Clone o repositório
+```bash
+# clonar repositório
+git clone [git@github.com:leovcorreia/Sistema-Biblioteca.git](https://github.com/leovcorreia/Sistema-Biblioteca.git)
+cd Sistema-Biblioteca
+```
+
+## 2) Configurar banco de dados
+Suba os containers Docker
+```bash
+cd backend
+docker-compose up -d
+```
+Acesse o PgAdmin em: http://localhost:5050. As credenciais de acesso estão no arquivo docker-compose.yml.
+
+Crie um banco chamado **mydatabase**.
+
+## 3) Rodar backend
 Pré-requisitos: Java 17
 
 ```bash
-# clonar repositório
-git clone git@github.com:leovcorreia/Sistema-Biblioteca.git
-
-# executar o projeto
+cd backend
 ./mvnw spring-boot:run
 ```
 
-## Front end web
+## 4) Rodar frontend
+
 Pré-requisitos: npm / yarn
 
 ```bash
-# clonar repositório
-git clone git@github.com:leovcorreia/Sistema-Biblioteca.git
-
-# entrar na pasta do projeto front end web
 cd frontend
 
 # instalar dependências
 yarn install
 
 # executar o projeto
-yarn start
 yarn dev
 ```
+
+Frontend fica disponível para acessar em: http://localhost:5173
 
 # Autor
 
