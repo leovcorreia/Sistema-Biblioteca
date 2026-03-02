@@ -22,26 +22,22 @@ public class Emprestimo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "livro_id")
     private Livro livro;
 
-    @NotNull
-    @PastOrPresent
+    @Column(nullable = false)
     private LocalDate data_emprestimo;
 
-    @NotNull
+    @Column(nullable = false)
     private LocalDate data_devolucao;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "varchar(30)")
+    @Column(nullable = false, length = 30)
     private StatusEmprestimo status;
 
 }

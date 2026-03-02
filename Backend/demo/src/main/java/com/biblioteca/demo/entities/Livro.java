@@ -23,22 +23,22 @@ public class Livro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @Column(nullable = false)
     private String titulo;
 
-    @NotBlank
+    @Column(nullable = false)
     private String autor;
 
-    @NotBlank
+    @Column(nullable = false)
     private String isbn;
 
-    @NotNull
+    @Column(nullable = false)
     private LocalDate data_publicacao;
 
-    @NotBlank
+    @Column(nullable = false)
     private String categoria;
 
-    @NotNull
+    @Column(nullable = false)
     @OneToMany(mappedBy = "livro")
     private List<Emprestimo> emprestimos = new ArrayList<>();
 

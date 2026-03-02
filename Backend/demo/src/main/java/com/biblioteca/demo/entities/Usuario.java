@@ -26,20 +26,20 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @Column(nullable = false)
     private String nome;
 
-    @NotBlank
     @Email
+    @Column(nullable = false)
     private String email;
 
-    @PastOrPresent
+    @Column(nullable = false)
     private LocalDateTime data_cadastro;
 
-    @NotBlank
+    @Column(nullable = false)
     private String telefone;
 
-    @NotNull
+    @Column(nullable = false)
     @OneToMany(mappedBy = "usuario")
     private List<Emprestimo> emprestimos = new ArrayList<>();
 }
