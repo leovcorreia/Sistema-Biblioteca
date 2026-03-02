@@ -1,6 +1,8 @@
 package com.biblioteca.demo.dto.usuarios;
 
 import com.biblioteca.demo.entities.Usuario;
+import com.biblioteca.demo.projections.LivroProjection;
+import com.biblioteca.demo.projections.UsuarioProjection;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -42,4 +44,10 @@ public class UsuarioDTO {
         this.data_cadastro = entity.getData_cadastro();
         this.telefone = entity.getTelefone();
     }
+
+    public UsuarioDTO(UsuarioProjection usuarioProjection) {
+        this.id = usuarioProjection.getId();
+        this.nome = usuarioProjection.getNome();
+    }
+
 }

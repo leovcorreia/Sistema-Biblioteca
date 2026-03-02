@@ -11,7 +11,7 @@ export function findPageRequest(params: UsuarioQueryParams) {
             page: params.page ?? 0,
             size: params.size ?? 6,
             sort: params.sort ?? "id,desc",
-            username: params.username || undefined
+            nome: params.nome || undefined
         }
     };
 

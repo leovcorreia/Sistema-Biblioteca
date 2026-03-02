@@ -7,6 +7,7 @@ import com.biblioteca.demo.dto.usuarios.UsuarioRequestDTO;
 import com.biblioteca.demo.dto.usuarios.UsuarioResponseDTO;
 import com.biblioteca.demo.entities.Livro;
 import com.biblioteca.demo.entities.Usuario;
+import com.biblioteca.demo.projections.UsuarioProjection;
 import com.biblioteca.demo.repositories.EmprestimoRepository;
 import com.biblioteca.demo.repositories.LivroRepository;
 import com.biblioteca.demo.repositories.UsuarioRepository;
@@ -118,6 +119,13 @@ public class UsuarioService {
 
 
         return livros.map(LivroRecomendationDTO::new);
+    }
+
+    public Page<UsuarioDTO> searchByName(String name, Pageable pageable) {
+        Page<UsuarioProjection> result = usuarioRepository.searchByName(name, pageable);
+        Page<UsuarioDTO> dto = result.map(UsuarioDTO::new);
+
+        return dto;
     }
 
     public void copyDtoToEntity(UsuarioRequestDTO dto, Usuario entity) {

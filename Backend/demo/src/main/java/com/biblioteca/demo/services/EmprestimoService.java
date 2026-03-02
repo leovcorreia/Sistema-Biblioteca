@@ -5,10 +5,13 @@ import com.biblioteca.demo.dto.emprestimo.EmprestimoResponseDTO;
 import com.biblioteca.demo.dto.emprestimo.EmprestimoUpdateDTO;
 import com.biblioteca.demo.entities.Emprestimo;
 import com.biblioteca.demo.entities.Livro;
+import com.biblioteca.demo.entities.StatusEmprestimo;
 import com.biblioteca.demo.entities.Usuario;
 import com.biblioteca.demo.repositories.EmprestimoRepository;
 import com.biblioteca.demo.repositories.LivroRepository;
 import com.biblioteca.demo.repositories.UsuarioRepository;
+import com.biblioteca.demo.services.exceptions.BusinessException;
+import com.biblioteca.demo.services.exceptions.DatabaseException;
 import com.biblioteca.demo.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -53,6 +56,13 @@ public class EmprestimoService {
 
         Livro livro = livroRepository.findById(dto.getLivro_id())
                 .orElseThrow(() -> new ResourceNotFoundException("Livro não encontrado"));
+
+        boolean livroTemEmprestimoAtivo =
+                emprestimoRepository.existsByLivroIdAndStatus(livro.getId(), StatusEmprestimo.ATIVO);
+
+        if (livroTemEmprestimoAtivo) {
+            throw new BusinessException("Este livro já possui um empréstimo ativo.");
+        }
 
         entity.setUsuario(usuario);
         entity.setLivro(livro);

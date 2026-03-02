@@ -3,12 +3,23 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import * as emprestimoService from "../../../../services/emprestimo-service";
 import * as forms from "../../../../utils/forms";
 import FormInput from "../../../../components/FormInput";
+import type { UsuarioDTO } from "../../../../models/usuario";
+import type { LivroDTO } from "../../../../models/livro";
+import LivroSearchModal from "../../../../components/LivroSearchModal";
+import UserSearchModal from "../../../../components/UserSearchModal";
+import "./styles.css";
 
 export default function EmprestimoForm() {
 
   const params = useParams();
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
+
+  const [showUserModal, setShowUserModal] = useState(false);
+  const [showLivroModal, setShowLivroModal] = useState(false);
+
+  const [selectedUser, setSelectedUser] = useState<UsuarioDTO | null>(null);
+  const [selectedLivro, setSelectedLivro] = useState<LivroDTO | null>(null);
 
   const isCreating = params.emprestimoId === "create";
   const isEditing = !isCreating;
@@ -52,6 +63,32 @@ export default function EmprestimoForm() {
   
     }
 
+    function handleUserSelect(user: UsuarioDTO) {
+        setSelectedUser(user);
+
+        // atualiza o form
+        setFormData(prev => ({
+            ...prev,
+            usuario_id: {
+            ...prev.usuario_id,
+            value: String(user.id)
+            }
+        }));
+    }  
+
+    function handleLivroSelect(livro: LivroDTO) {
+        setSelectedLivro(livro);
+
+        setFormData(prev => ({
+            ...prev,
+            livro_id: {
+            ...prev.livro_id,
+            value: String(livro.id)
+            }
+        }));
+
+    }
+
   function handleTurnDirty(name: string) {
     setFormData(prev => forms.dirtyAndValidate(prev, name));
   }
@@ -69,17 +106,16 @@ export default function EmprestimoForm() {
     const values = forms.toValues(formData);
 
     const requestBody = {
-      id: isEditing ? Number(params.emprestimoId) : undefined,
-      usuario_id: Number(values.usuario_id),
-      livro_id: Number(values.livro_id),
-      data_emprestimo: values.data_emprestimo,
-      data_devolucao: values.data_devolucao,
-      status: values.status,
+        usuario_id: Number(values.usuario_id),
+        livro_id: Number(values.livro_id),
+        data_emprestimo: values.data_emprestimo,
+        data_devolucao: values.data_devolucao,
+        status: values.status,
     };
 
     const request = isEditing
-      ? emprestimoService.updateRequest({ ...requestBody, id: Number(params.emprestimoId) })
-      : emprestimoService.insertRequest({ ...requestBody, id: Number(params.emprestimoId) });
+        ? emprestimoService.updateRequest(requestBody)
+        : emprestimoService.insertRequest(requestBody);
 
     request
       .then(() => navigate("/cruds/emprestimos"))
@@ -103,8 +139,50 @@ export default function EmprestimoForm() {
 
             <h2>DADOS DO EMPRÉSTIMO</h2>
 
-            <FormInput {...formData.usuario_id} className="smv-form-control" onChange={handleInputChange} onTurnDirty={handleTurnDirty} readOnly={isEditing} />
-            <FormInput {...formData.livro_id} className="smv-form-control" onChange={handleInputChange} onTurnDirty={handleTurnDirty} readOnly={isEditing} />
+            <div className="smv-form-group">
+
+                <div className="smv-search-field">
+                    <input
+                    className="smv-form-control"
+                    value={selectedUser ? selectedUser.nome : ""}
+                    placeholder="Selecione um usuário"
+                    readOnly
+                    />
+
+                    <button
+                    type="button"
+                    className="smv-client-add-btn"
+                    onClick={() => setShowUserModal(true)}
+                    disabled={isEditing}
+                    >
+                    🔍
+                    </button>
+                </div>
+
+            </div>
+
+            <div className="smv-form-group">
+
+                <div className="smv-search-field">
+                    <input
+                    className="smv-form-control"
+                    value={selectedLivro ? selectedLivro.titulo : ""}
+                    placeholder="Selecione um livro"
+                    readOnly
+                    />
+
+                    <button
+                    type="button"
+                    className="smv-client-add-btn"
+                    onClick={() => setShowLivroModal(true)}
+                    disabled={isEditing}
+                    >
+                    🔍
+                    </button>
+                </div>
+
+            </div>
+
             <label htmlFor="">Data de empréstimo</label>
             <FormInput {...formData.data_emprestimo} className="smv-form-control" onChange={handleInputChange} onTurnDirty={handleTurnDirty} readOnly={isEditing} />
             <label htmlFor="">Data de devolução</label>
@@ -131,6 +209,21 @@ export default function EmprestimoForm() {
             </div>
 
           </form>
+
+            {showUserModal && (
+                <UserSearchModal
+                    onClose={() => setShowUserModal(false)}
+                    onSelect={handleUserSelect}
+                />
+            )}
+
+            {showLivroModal && (
+                <LivroSearchModal
+                    onClose={() => setShowLivroModal(false)}
+                    onSelect={handleLivroSelect}
+                />
+            )}
+
         </div>
       </section>
     </main>

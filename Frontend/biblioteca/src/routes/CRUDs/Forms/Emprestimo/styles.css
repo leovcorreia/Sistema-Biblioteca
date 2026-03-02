@@ -1,0 +1,12 @@
+.smv-search-field {
+    display: flex;
+    align-items: center;
+}
+
+.smv-client-add-btn {
+    margin-left: 10px;
+}
+
+.smv-form-group {
+    margin: 10px 0;
+}

@@ -1,7 +1,10 @@
 package com.biblioteca.demo.services;
 
 import com.biblioteca.demo.dto.livros.*;
+import com.biblioteca.demo.dto.usuarios.UsuarioDTO;
 import com.biblioteca.demo.entities.Livro;
+import com.biblioteca.demo.projections.LivroProjection;
+import com.biblioteca.demo.projections.UsuarioProjection;
 import com.biblioteca.demo.repositories.EmprestimoRepository;
 import com.biblioteca.demo.repositories.LivroRepository;
 import com.biblioteca.demo.services.exceptions.DatabaseException;
@@ -73,6 +76,13 @@ public class LivroService {
         catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Falha de integridade referencial");
         }
+    }
+
+    public Page<LivroDTO> searchByTitulo(String titulo, Pageable pageable) {
+        Page<LivroProjection> result = livroRepository.searchByTitulo(titulo, pageable);
+        Page<LivroDTO> dto = result.map(LivroDTO::new);
+
+        return dto;
     }
 
     private void copyDtoToEntity(LivroRequestDTO dto, Livro entity) {

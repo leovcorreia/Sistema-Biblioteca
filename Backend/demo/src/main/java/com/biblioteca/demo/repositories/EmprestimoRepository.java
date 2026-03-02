@@ -1,6 +1,7 @@
 package com.biblioteca.demo.repositories;
 
 import com.biblioteca.demo.entities.Emprestimo;
+import com.biblioteca.demo.entities.StatusEmprestimo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -16,5 +17,7 @@ public interface EmprestimoRepository extends JpaRepository<Emprestimo, Long> {
             "WHERE emprestimo.usuario_id = :usuario_id"
             )
     List<String> findCategoriasEmprestadas(Long usuario_id);
+
+    boolean existsByLivroIdAndStatus(Long livroId, StatusEmprestimo status);
 
 }

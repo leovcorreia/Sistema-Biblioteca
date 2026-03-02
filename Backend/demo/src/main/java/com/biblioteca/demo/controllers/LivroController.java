@@ -1,6 +1,7 @@
 package com.biblioteca.demo.controllers;
 
 import com.biblioteca.demo.dto.livros.*;
+import com.biblioteca.demo.dto.usuarios.UsuarioDTO;
 import com.biblioteca.demo.services.LivroService;
 import com.biblioteca.demo.services.UsuarioService;
 import jakarta.validation.Valid;
@@ -25,9 +26,20 @@ public class LivroController {
     private UsuarioService usuarioService;
 
     @GetMapping
-    public ResponseEntity<Page<LivroDTO>> findAll(Pageable pageable) {
-        Page<LivroDTO> dto = livroService.findAll(pageable);
+    public ResponseEntity<Page<LivroDTO>> findAll(
+            @RequestParam(required = false) String titulo,
+            Pageable pageable) {
+
+        Page<LivroDTO> dto;
+
+        if (titulo != null && !titulo.isBlank()) {
+            dto = livroService.searchByTitulo(titulo, pageable);
+        } else {
+            dto = livroService.findAll(pageable);
+        }
+
         return ResponseEntity.ok(dto);
+
     }
 
     @GetMapping("/{id}")

@@ -11,7 +11,8 @@ export function findPageRequest(params: UsuarioQueryParams) {
         params: {
             page: params.page ?? 0,
             size: params.size ?? 6,
-            sort: params.sort ?? "id,desc"
+            sort: params.sort ?? "id,desc",
+            titulo: params.titulo || undefined
         }
     };
 
@@ -44,5 +45,17 @@ export function deleteRequest(id: number) {
   return requestBackend({
     method: "DELETE",
     url: `/livros/${id}`,
+  });
+}
+
+export function findRecomendacoes(userId: number, page: number) {
+  return requestBackend({
+    method: "GET",
+    url: `/usuarios/${userId}/recomendacoes`,
+    params: {
+      page,
+      size: 6,
+      sort: "id,desc"
+    }
   });
 }

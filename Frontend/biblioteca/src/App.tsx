@@ -8,6 +8,7 @@ import Livro from './routes/CRUDs/Livro/index.tsx';
 import LivroForm from './routes/CRUDs/Forms/Livro/livro-form.tsx';
 import Emprestimo from './routes/CRUDs/Emprestimo/index.tsx';
 import EmprestimoForm from './routes/CRUDs/Forms/Emprestimo/emprestimo-form.tsx';
+import Recomendacao from './routes/Recomendacao/index.tsx';
 
 
 export default function App() {
@@ -24,6 +25,7 @@ export default function App() {
             <Route path="cruds/livros/:livroId" element={<LivroForm />} />
         <Route path="cruds/emprestimos" element={<Emprestimo />} />
             <Route path="cruds/emprestimos/:emprestimoId" element={<EmprestimoForm />} />
+        <Route path="/recomendacao" element={<Recomendacao />} />
 
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

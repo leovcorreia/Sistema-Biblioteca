@@ -25,9 +25,17 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @GetMapping
-    public ResponseEntity<Page<UsuarioDTO>> findAll(Pageable pageable) {
+    public ResponseEntity<Page<UsuarioDTO>> findAll(
+            @RequestParam(required = false) String nome,
+            Pageable pageable) {
 
-        Page<UsuarioDTO> dto = usuarioService.findAll(pageable);
+        Page<UsuarioDTO> dto;
+
+        if (nome != null && !nome.isBlank()) {
+            dto = usuarioService.searchByName(nome, pageable);
+        } else {
+            dto = usuarioService.findAll(pageable);
+        }
 
         return ResponseEntity.ok(dto);
 

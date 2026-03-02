@@ -1,6 +1,7 @@
 package com.biblioteca.demo.dto.livros;
 
 import com.biblioteca.demo.entities.Livro;
+import com.biblioteca.demo.projections.LivroProjection;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,5 +29,10 @@ public class LivroDTO {
         this.isbn = entity.getIsbn();
         this.data_publicacao = entity.getData_publicacao();
         this.categoria = entity.getCategoria();
+    }
+
+    public LivroDTO(LivroProjection livroProjection) {
+        this.id = livroProjection.getId();
+        this.titulo = livroProjection.getTitulo();
     }
 }

@@ -2,6 +2,7 @@ package com.biblioteca.demo.controllers.handlers;
 
 import com.biblioteca.demo.dto.exceptions.CustomError;
 import com.biblioteca.demo.dto.exceptions.ValidationError;
+import com.biblioteca.demo.services.exceptions.BusinessException;
 import com.biblioteca.demo.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -43,6 +44,24 @@ public class ControllerExceptionHandler {
         for (FieldError f : e.getBindingResult().getFieldErrors()) {
             err.addError(f.getField(), f.getDefaultMessage());
         }
+
+        return ResponseEntity.status(status).body(err);
+    }
+
+    // exceção para regras de negócio
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<CustomError> businessException(
+            BusinessException e,
+            HttpServletRequest request) {
+
+        HttpStatus status = HttpStatus.CONFLICT; // 409
+
+        CustomError err = new CustomError(
+                Instant.now(),
+                status.value(),
+                e.getMessage(),
+                request.getRequestURI()
+        );
 
         return ResponseEntity.status(status).body(err);
     }
