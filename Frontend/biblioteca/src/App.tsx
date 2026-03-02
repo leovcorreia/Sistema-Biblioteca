@@ -1,4 +1,4 @@
-import { BrowserRouter, unstable_HistoryRouter as HistoryRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import './App.css'
 import Home from './routes/Home';
 import Cruds from './routes/CRUDs/index.tsx';
@@ -9,7 +9,7 @@ import LivroForm from './routes/CRUDs/Forms/Livro/livro-form.tsx';
 import Emprestimo from './routes/CRUDs/Emprestimo/index.tsx';
 import EmprestimoForm from './routes/CRUDs/Forms/Emprestimo/emprestimo-form.tsx';
 import Recomendacao from './routes/Recomendacao/index.tsx';
-
+/*import GoogleBooks from './routes/GoogleBooks/index.tsx';*/
 
 export default function App() {
   return (
@@ -26,6 +26,8 @@ export default function App() {
         <Route path="cruds/emprestimos" element={<Emprestimo />} />
             <Route path="cruds/emprestimos/:emprestimoId" element={<EmprestimoForm />} />
         <Route path="/recomendacao" element={<Recomendacao />} />
+
+        {/*<Route path="/google-books" element={<GoogleBooks />} /> */}
 
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
